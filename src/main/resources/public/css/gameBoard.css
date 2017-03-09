@@ -1,0 +1,51 @@
+.gameBoard{
+/*with:100px;
+height:100px;
+background-color: light-gray;*/
+}
+
+.gameBoard td {
+width: 40px;
+height:40px;
+background-color:blue;
+}
+
+.gameBoard td {
+width: 40px;
+height:40px;
+background-color:#498e94;
+}
+
+.gameBoard td:hover {
+  width: 40px;
+  height:40px;
+  background-color:#3a7176;
+}
+
+.gameBoard td:active {
+  width: 40px;
+  height:40px;
+  background-color:#801e56;
+}
+
+table, th, td {
+   border: 1px solid black;
+}
+
+#MyBoard .ship{
+background-color: orange;
+}
+
+#BoardContainer{
+    padding: 0px 0px 0px 0px;
+    width:1000px;
+    height:500px;
+}
+
+#PlayerBoard{
+    float: left;
+}
+
+#CpuBoard{
+    float: right;
+}

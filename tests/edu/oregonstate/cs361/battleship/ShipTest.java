@@ -51,6 +51,16 @@ class ShipTest {
         assertEquals(true,s.scan(new Coordinate(5,3)));
     }
 
+    @Test
+    public void testStealth() {
+        Ship s = new StealthShip("AircraftCarrier",5, new Coordinate(5,2),new Coordinate(5,7)); //The ship name does not matter for this test. Only that it cannot be seen in scan
+        assertEquals(false,s.scan(new Coordinate(1,1)));
+        assertEquals(false,s.scan(new Coordinate(4,2)));
+        assertEquals(false,s.scan(new Coordinate(5,2)));
+        assertEquals(false,s.scan(new Coordinate(6,2)));
+        assertEquals(false,s.scan(new Coordinate(5,1)));
+        assertEquals(false,s.scan(new Coordinate(5,3)));
+    }
 
 
 

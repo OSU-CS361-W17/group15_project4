@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         staticFiles.location("/public");
 
+
         //This will listen to GET requests to /model and return a clean new model
         get("/model", (req, res) -> newModel());
         //This will listen to POST requests and expects to receive a game model, as well as location to fire to
@@ -23,6 +24,7 @@ public class Main {
         //This will listen to POST requests and expects to receive a game model, as well as location to place the ship
         post("/placeShip/:id/:row/:col/:orientation", (req, res) -> placeShip(req));
     }
+
 
     //This function returns a new model
     private static String newModel() {

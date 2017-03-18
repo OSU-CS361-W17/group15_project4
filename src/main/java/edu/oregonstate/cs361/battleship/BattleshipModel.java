@@ -3,6 +3,7 @@ package edu.oregonstate.cs361.battleship;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Created by michaelhilton on 1/4/17.
@@ -25,8 +26,14 @@ public class BattleshipModel {
     private ArrayList<Coordinate> playerMisses;
     ArrayList<Coordinate> computerHits;
     private ArrayList<Coordinate> computerMisses;
+    private Stack<Coordinate> verticalStack;
+    private Stack<Coordinate> horizontalStack;
+    private Stack<Coordinate> shotListStack;
 
     boolean scanResult = false;
+    boolean easyMode = true;
+    boolean computerIsBeingSmart = false;
+    boolean computerIsShootingVertical = true;
 
 
 
@@ -35,6 +42,10 @@ public class BattleshipModel {
         playerMisses= new ArrayList<>();
         computerHits = new ArrayList<>();
         computerMisses= new ArrayList<>();
+        verticalStack = new Stack<>();
+        horizontalStack = new Stack<>();
+        shotListStack = new Stack<>();
+        populateShotListStack();
     }
 
 
@@ -106,14 +117,82 @@ public class BattleshipModel {
     }
 
     public void shootAtPlayer() {
-        int max = 10;
-        int min = 1;
-        Random random = new Random();
-        int randRow = random.nextInt(max - min + 1) + min;
-        int randCol = random.nextInt(max - min + 1) + min;
+     if (easyMode) {                                        //Comment out this
+         Coordinate coor = shotListStack.pop();             //section for
+         playerShot(coor);                                  //hard mode
+     }                                                      //testing without
+     else                                                   //front end option
+        intelligentShooting();
+    }
 
-        Coordinate coor = new Coordinate(randRow,randCol);
-        playerShot(coor);
+    private void populateShotListStack(){
+        int numberAdded = 0;
+        while(numberAdded < 100){
+            int max = 10;
+            int min = 1;
+            Random random = new Random();
+            int randRow = random.nextInt(max - min + 1) + min;
+            int randCol = random.nextInt(max - min + 1) + min;
+            Coordinate newCoordinate = new Coordinate(randRow, randCol);
+            if(!shotListStack.contains(newCoordinate)){
+                shotListStack.push(newCoordinate);
+                numberAdded++;
+            }
+        }
+    }
+
+    private Coordinate getNextCoordinate(){
+        Coordinate nextCoordinate;
+        do {
+            if (!verticalStack.isEmpty()) {
+                nextCoordinate = verticalStack.pop();
+                computerIsShootingVertical = true;
+            } else if (!horizontalStack.isEmpty()) {
+                nextCoordinate = horizontalStack.pop();
+                computerIsShootingVertical = false;
+            } else {
+                nextCoordinate = shotListStack.pop();
+                computerIsBeingSmart = false;
+            }
+        } while(playerHits.contains(nextCoordinate) || playerMisses.contains(nextCoordinate));
+        return nextCoordinate;
+    }
+
+    private void pushVertical(Coordinate nextCoordinate){
+        int tempDown = nextCoordinate.getDown();
+        int tempAcross = nextCoordinate.getAcross();
+        if(tempDown > 1)
+            verticalStack.push(new Coordinate(tempAcross, tempDown-1));
+        if(tempDown < 10)
+            verticalStack.push(new Coordinate(tempAcross, tempDown+1));
+    }
+    private void pushHorizontal(Coordinate nextCoordinate){
+        int tempDown = nextCoordinate.getDown();
+        int tempAcross = nextCoordinate.getAcross();
+        if(tempAcross > 1)
+            horizontalStack.push(new Coordinate(tempAcross-1, tempDown));
+        if(tempAcross < 10)
+            horizontalStack.push(new Coordinate(tempAcross+1, tempDown));
+    }
+
+    private void pushAround(Coordinate nextCoordinate){
+        pushVertical(nextCoordinate);
+        pushHorizontal(nextCoordinate);
+    }
+
+    private void intelligentShooting(){
+        int tempHits = playerHits.size();
+        Coordinate nextCoordinate = getNextCoordinate();
+        playerShot(nextCoordinate);
+        if(playerHits.size() > tempHits) {
+            if (!computerIsBeingSmart) {
+                computerIsBeingSmart = true;
+                pushAround(nextCoordinate);
+            }
+            else {
+                pushAround(nextCoordinate);
+            }
+        }
     }
 
     void playerShot(Coordinate coor) {

@@ -118,11 +118,21 @@ public class BattleshipModel {
     }
 
     public void shootAtPlayer() {
-     if (easyMode) {                                        //Comment out this
-         Coordinate coor = shotListStack.pop();             //section for
-         playerShot(coor);                                  //hard mode
-     }                                                      //testing without
-     else                                                   //front end option
+     if (easyMode) {
+         Coordinate coor = shotListStack.pop();
+
+         //Easy mode works by  firing on columns first 1- 10 then moves to rows
+         int easyModeRow = 1;
+         int easyModeCol = 0;
+         if(easyModeCol % 10 == 0){
+             easyModeCol =1;
+             easyModeRow++;
+         }
+         Coordinate coor1 = new Coordinate(easyModeRow,easyModeCol);
+         playerShot(coor);
+
+     }
+     else
         intelligentShooting();
     }
 

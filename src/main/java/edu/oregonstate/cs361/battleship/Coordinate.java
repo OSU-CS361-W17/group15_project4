@@ -27,4 +27,11 @@ public class Coordinate {
     public void setAcross(int across) {
         Across = across;
     }
+
+    public boolean equals(Object test){
+        if(((Coordinate)test).Across != this.Across || ((Coordinate)test).Down != this.Down)
+            return false;
+        else
+            return true;
+    }
 }

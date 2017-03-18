@@ -76,6 +76,10 @@ function scan(){
    request.done(function( currModel ) {
      displayGameState(currModel);
      gameModel = currModel;
+     if(gameModel.scanResult){
+     alert("Scan found at least one Ship")}
+     else{
+     alert("Scan found no Ships")}
 
    });
 
@@ -94,15 +98,8 @@ function displayGameState(gameModel){
 $( '#MyBoard td'  ).css("background-color", "blue");
 $( '#TheirBoard td'  ).css("background-color", "blue");
 
-if(gameModel.scanResult){
-alert("Scan found at least one Ship")}
-else{
-alert("Scan found no Ships")}
-
 displayShip(gameModel.aircraftCarrier);
 displayShip(gameModel.battleship);
-displayShip(gameModel.cruiser);
-displayShip(gameModel.destroyer);
 displayShip(gameModel.submarine);
 displayShip(gameModel.clipper);
 displayShip(gameModel.dinghy);

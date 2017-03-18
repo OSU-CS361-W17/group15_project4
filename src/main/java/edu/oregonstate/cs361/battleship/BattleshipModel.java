@@ -32,6 +32,7 @@ public class BattleshipModel {
 
     boolean scanResult = false;
     boolean easyMode = true;
+    //boolean easymode = gameMode();
     boolean computerIsBeingSmart = false;
     boolean computerIsShootingVertical = true;
 

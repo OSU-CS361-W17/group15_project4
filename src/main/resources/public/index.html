@@ -73,6 +73,21 @@
     <button id="exit" onmousedown="toggleOverlay()">Close</button>
   </div>
 
+    <a> 
+        <h2>Easy|Hard</h2>  
+        <label class="switch"> 
+            <input type="checkbox" id="myCheck"> 
+            <div class="slider round" onclick="update()"></div> 
+        </label> 
+    </a> 
+    <script> 
+    function gameMode() { 
+        var mode = document.getElementById("myCheck"); 
+        return mode;
+     }
+     </script>
+
+
   <h1 style = "color: white;">Place Ships</h1>
   <div id="AircraftcarrierDiv">
     Ship:
